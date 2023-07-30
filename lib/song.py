@@ -1,7 +1,6 @@
-from . import CURSOR
+from config import CONN, CURSOR
 
 class Song:
-
     def __init__(self, name, album):
         self.id = None
         self.name = name
@@ -21,11 +20,12 @@ class Song:
 
     def save(self):
         sql = """
-            INSERT INTO songs (name, album)
-            VALUES (?, ?)
+                INSERT INTO songs (name, album)
+                VALUES (?, ?)
         """
 
         CURSOR.execute(sql, (self.name, self.album))
+        CONN.commit()
 
         self.id = CURSOR.execute("SELECT last_insert_rowid() FROM songs").fetchone()[0]
 
